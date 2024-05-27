@@ -1,20 +1,6 @@
 import postData from "./postData.jsx";
-import { useState, useEffect } from "react";
-import axios from "axios";
-
-// useEffect(() => {
-//   const [post, setPost] = useState('');
-//   const dataApi = async () => {
-//     try {
-//       const data = await fetch(`https://hn.algolia.com/api/v1/items/${post}`);
-//       const result = await data.json();
-//       console.log(result);
-//     } catch (error) {
-//       "Server error", error;
-//     }
-//   };
-//   dataApi();
-// }, []);
+import { useState } from "react";
+// import axios from "axios";
 
 // const dataApi = async () => {
 //   try {
@@ -88,33 +74,38 @@ import axios from "axios";
 // };
 
 const Post = () => {
+  const [idNumber, setIdNumber] = useState(1);
+  // const [arrayData, setArrayData] = useState([]);
+
+  const dataApi = async () => {
+    // setArrayData((pre) => [...pre, idNumber]);
+    // setIdNumber((pre) => pre + 1);
+    //   console.log("setArrayData");
+    try {
+      const data = await fetch(
+        `https://hn.algolia.com/api/v1/items/${idNumber}`
+      );
+      const result = await data.json();
+      console.log(result);
+    } catch (error) {
+      "Server error", error;
+    }
+  };
+
+  dataApi();
+
   return (
-    // <div className="bg-orange-100 container mx-auto px-3 py-2 gap-4 ">
-    //   <ol>
-    //     <li className="list-decimal mx-10 my-1">
-    //       <div className="flex gap-2 items-center">
-    //         <span className="font-medium">{dataReset.title}</span>
-    //         <span className="text-sm">({dataReset.url})</span>
-    //       </div>
-    //       <div className="flex items-center font-sm gap-1">
-    //         <span>
-    //           {dataReset.points} points by {dataReset.author} 16 hours ago
-    //         </span>
-    //         <span className="text-sm border-x-2 border-slate-800 px-2">
-    //           hide
-    //         </span>
-    //         <span className="text-sm">{dataReset.num_comments} comments</span>
-    //       </div>
-    //     </li>
-    //   </ol>
-    // </div>
     <div className="bg-orange-100 container mx-auto px-3 py-2 gap-4 ">
       <ol>
         {postData.map((post, index) => (
           <li key={index} className="list-decimal mx-10 my-1">
             <div className="flex gap-2 items-center">
               <span className="font-medium">{post.title}</span>
-              <span className="text-sm">({post.url})</span>
+              <a href={post.url}>
+                <span className="text-sm max-w-40 line-clamp-1">
+                  ({post.url})
+                </span>
+              </a>
             </div>
             <div className="flex items-center font-sm gap-1">
               <span>
